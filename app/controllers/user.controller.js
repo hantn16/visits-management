@@ -3,7 +3,7 @@ const User = db.users;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new User
-exports.create = (req, res) => {
+const create = (req, res) => {
   // Validate request
   if (!req.body.name) {
     res.status(400).send({
@@ -14,9 +14,9 @@ exports.create = (req, res) => {
 
   // Create a User
   const user = {
-    title: req.body.title,
+    email: req.body.email,
+    name: req.body.name,
     description: req.body.description,
-    published: req.body.published ? req.body.published : false,
   };
 
   // Save User in the database
@@ -32,9 +32,9 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Users from the database.
-exports.findAll = (req, res) => {
-  const title = req.query.title;
-  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+const findAll = (req, res) => {
+  const email = req.query.email;
+  var condition = email ? { email: { [Op.like]: `%${email}%` } } : null;
 
   User.findAll({ where: condition })
     .then((data) => {
@@ -48,7 +48,7 @@ exports.findAll = (req, res) => {
 };
 
 // Find a single User with an id
-exports.findOne = (req, res) => {
+const findOne = (req, res) => {
   const id = req.params.id;
 
   User.findByPk(id)
@@ -69,7 +69,7 @@ exports.findOne = (req, res) => {
 };
 
 // Update a User by the id in the request
-exports.update = (req, res) => {
+const update = (req, res) => {
   const id = req.params.id;
 
   User.update(req.body, {
@@ -94,7 +94,7 @@ exports.update = (req, res) => {
 };
 
 // Delete a User with the specified id in the request
-exports.delete = (req, res) => {
+const deleteOne = (req, res) => {
   const id = req.params.id;
 
   User.destroy({
@@ -119,7 +119,7 @@ exports.delete = (req, res) => {
 };
 
 // Delete all Users from the database.
-exports.deleteAll = (req, res) => {
+const deleteAll = (req, res) => {
   User.destroy({
     where: {},
     truncate: false,
@@ -135,7 +135,7 @@ exports.deleteAll = (req, res) => {
 };
 
 // find all published User
-exports.findAllPublished = (req, res) => {
+const findAllPublished = (req, res) => {
   User.findAll({ where: { published: true } })
     .then((data) => {
       res.send(data);
@@ -145,4 +145,17 @@ exports.findAllPublished = (req, res) => {
         message: err.message || 'Some error occurred while retrieving users.',
       });
     });
+};
+const getTestUsers = (req, res) => {
+  res.send('TEst');
+};
+module.exports = {
+  create,
+  findAll,
+  findOne,
+  update,
+  deleteOne,
+  deleteAll,
+  findAllPublished,
+  getTestUsers,
 };

@@ -4,9 +4,32 @@ const userController = require('../../controllers/user.controller');
 
 const router = express.Router();
 
-router.route('/').post(userController.createUser).get(userController.getUsers).delete(userController.deleteUsers);
+router
+  .route('/')
+  .post((req, res) => {
+    userController.createUser;
+  })
+  .get((req, res) => {
+    userController.getUsers;
+  })
+  .delete((req, res) => {
+    userController.deleteUsers;
+  });
+router.route('/me').get((req, res) => {
+  userController.getTestUsers;
+});
 
-router.route('/:userId').get(userController.getUser).patch(userController.updateUser).delete(userController.deleteUser);
+router
+  .route('/:userId')
+  .get((req, res) => {
+    userController.getUser;
+  })
+  .patch((req, res) => {
+    userController.updateUser;
+  })
+  .delete((req, res) => {
+    userController.deleteUser;
+  });
 
 module.exports = router;
 // module.exports = (app) => {
