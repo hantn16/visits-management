@@ -1,0 +1,51 @@
+{
+  "users": [
+    {
+      "name": "Han Trinh",
+      "email": "hantn16@gmail.com",
+      "description": "admin",
+      "password": "anhhan16"
+    }
+  ],
+  "allcode": [
+    {
+      "key": "R001",
+      "valueEn": "relatives",
+      "valueVi": "Họ hàng",
+      "type": "Relatives",
+      "description": "Họ hàng"
+    },
+    {
+      "key": "R002",
+      "valueEn": "buddies",
+      "valueVi": "Bạn bè",
+      "type": "Relatives",
+      "description": "Bạn bè"
+    },
+    {
+      "key": "R003",
+      "valueEn": "colleague",
+      "valueVi": "Đồng nghiệp",
+      "type": "Relatives",
+      "description": "Đồng nghiệp"
+    },
+    {
+      "key": "V001",
+      "valueEn": "wedding",
+      "valueVi": "Đám cưới",
+      "type": "visit"
+    },
+    {
+      "key": "V002",
+      "valueEn": "funeral",
+      "valueVi": "Đám ma",
+      "type": "visit"
+    },
+    {
+      "key": "V001",
+      "valueEn": "sick",
+      "valueVi": "Người ốm",
+      "type": "visit"
+    }
+  ]
+}

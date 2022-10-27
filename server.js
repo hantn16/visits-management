@@ -1,6 +1,6 @@
 const app = require('./app/app');
 
-const config = require('./app/config/config');
+const config = require('./app/config/env');
 const logger = require('./app/config/logger');
 const db = require('./app/models');
 

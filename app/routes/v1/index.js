@@ -1,6 +1,5 @@
 const express = require('express');
 
-const config = require('../../config/config');
 const tutorialRoute = require('./tutorial.route');
 const userRoute = require('./user.route');
 
