@@ -1,35 +1,11 @@
-const db = require('../models');
-const User = db.users;
-const Op = db.Sequelize.Op;
+const httpStatus = require('http-status');
+const catchAsync = require('../utils/catchAsync');
+const { userService } = require('../services');
 
-// Create and Save a new User
-const create = (req, res) => {
-  // Validate request
-  if (!req.body.name) {
-    res.status(400).send({
-      message: 'Name can not be empty!',
-    });
-    return;
-  }
-
-  // Create a User
-  const user = {
-    email: req.body.email,
-    name: req.body.name,
-    description: req.body.description,
-  };
-
-  // Save User in the database
-  User.create(user)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while creating the User.',
-      });
-    });
-};
+const createUser = catchAsync(async (req, res) => {
+  const user = await userService.createUser(req.body);
+  res.status(httpStatus.CREATED).send(user);
+});
 
 // Retrieve all Users from the database.
 const findAll = (req, res) => {
@@ -147,10 +123,12 @@ const findAllPublished = (req, res) => {
     });
 };
 const getTestUsers = (req, res) => {
-  res.send('TEst');
+  return res.status(200).json({
+    message: 'Success',
+  });
 };
 module.exports = {
-  create,
+  createUser,
   findAll,
   findOne,
   update,

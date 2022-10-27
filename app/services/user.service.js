@@ -1,5 +1,8 @@
 const httpStatus = require('http-status');
-const { User } = require('../models');
+
+const db = require('../models');
+const User = db.User;
+const Op = db.Sequelize.Op;
 const ApiError = require('../utils/ApiError');
 
 /**

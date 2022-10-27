@@ -1,4 +1,5 @@
 'use strict';
+const { uuid } = require('uuidv4');
 const { allcode } = require('./initial.json');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -6,6 +7,7 @@ module.exports = {
     return queryInterface.bulkInsert(
       'AllCodes',
       allcode.map((item) => ({
+        id: uuid(),
         ...item,
         createdAt: new Date(),
         updatedAt: new Date(),

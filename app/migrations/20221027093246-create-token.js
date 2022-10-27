@@ -2,27 +2,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Items', {
+    await queryInterface.createTable('Tokens', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      visitId: {
-        type: Sequelize.INTEGER,
+      token: {
+        type: Sequelize.STRING,
+      },
+      user: {
+        type: Sequelize.UUIDV4,
       },
       type: {
-        type: Sequelize.INTEGER,
-      },
-      amount: {
-        type: Sequelize.INTEGER,
-      },
-      unit: {
         type: Sequelize.STRING,
       },
-      description: {
-        type: Sequelize.STRING,
+      expires: {
+        type: Sequelize.DATE,
+      },
+      blacklisted: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -35,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Items');
+    await queryInterface.dropTable('Tokens');
   },
 };

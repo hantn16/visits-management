@@ -9,27 +9,6 @@
   ],
   "allcode": [
     {
-      "key": "R001",
-      "valueEn": "relatives",
-      "valueVi": "Họ hàng",
-      "type": "Relatives",
-      "description": "Họ hàng"
-    },
-    {
-      "key": "R002",
-      "valueEn": "buddies",
-      "valueVi": "Bạn bè",
-      "type": "Relatives",
-      "description": "Bạn bè"
-    },
-    {
-      "key": "R003",
-      "valueEn": "colleague",
-      "valueVi": "Đồng nghiệp",
-      "type": "Relatives",
-      "description": "Đồng nghiệp"
-    },
-    {
       "key": "V001",
       "valueEn": "wedding",
       "valueVi": "Đám cưới",
@@ -46,6 +25,28 @@
       "valueEn": "sick",
       "valueVi": "Người ốm",
       "type": "visit"
+    }
+  ],
+  "contactGroups": [
+    {
+      "name": "họ hàng",
+      "nameEn": "relatives",
+      "parentId": null
+    },
+    {
+      "name": "bạn học",
+      "nameEn": "classmates",
+      "parentId": null
+    },
+    {
+      "name": "đồng nghiệp",
+      "nameEn": "colleagues",
+      "parentId": null
+    },
+    {
+      "name": "người quen",
+      "nameEn": "acquaintances",
+      "parentId": null
     }
   ]
 }

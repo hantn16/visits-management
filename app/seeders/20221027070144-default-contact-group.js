@@ -1,19 +1,12 @@
 'use strict';
 const { uuid } = require('uuidv4');
-const bcrypt = require('bcryptjs');
-const { users } = require('./initial.json');
+const { contactGroups } = require('./initial.json');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     return queryInterface.bulkInsert(
-      'Users',
-      users.map((user) => ({
-        id: uuid(),
-        ...user,
-        password: bcrypt.hashSync(user.password, 8),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }))
+      'contactGroups',
+      contactGroups.map((group) => ({ id: uuid(), ...group, createdAt: new Date(), updatedAt: new Date() }))
     );
   },
 
