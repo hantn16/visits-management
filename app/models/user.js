@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Contact, {
         foreignKey: 'ownerId',
       });
+      User.hasMany(models.Token, {
+        foreignKey: 'userId',
+        as: 'tokens',
+      });
     }
     isPasswordMatch = function (password) {
       const user = this;
@@ -48,7 +52,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         beforeBulkCreate: (users, options) => {
           users.forEach((user) => {
-            console.log('test here');
             user.password = bcrypt.hashSync(user.password, 8);
           });
         },

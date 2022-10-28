@@ -11,8 +11,8 @@ module.exports = {
       token: {
         type: Sequelize.STRING,
       },
-      user: {
-        type: Sequelize.STRING,
+      userId: {
+        type: Sequelize.UUID,
       },
       type: {
         type: Sequelize.STRING,

@@ -11,8 +11,8 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
       },
-      type: {
-        type: Sequelize.STRING,
+      typeId: {
+        type: Sequelize.UUID,
       },
       description: {
         type: Sequelize.STRING,

@@ -9,6 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Relationship.hasMany(models.Relationship, {
+        foreignKey: 'parentId',
+        as: 'children',
+      });
+      Relationship.belongsTo(models.Relationship, {
+        as: 'parent',
+      });
       Relationship.belongsToMany(models.Contact, {
         through: 'ContactRelationships',
         as: 'contacts',
@@ -21,6 +28,16 @@ module.exports = (sequelize, DataTypes) => {
       nameEn: DataTypes.STRING,
       parentId: DataTypes.STRING,
       description: DataTypes.STRING,
+      hasChild: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return !!Relationship.findOne({
+            where: {
+              parentId: this.parentId,
+            },
+          });
+        },
+      },
     },
     {
       sequelize,

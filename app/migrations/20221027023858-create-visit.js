@@ -9,17 +9,17 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      type: {
-        type: Sequelize.INTEGER,
+      eventId: {
+        type: Sequelize.UUID,
       },
       visitorId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
       visiteeId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
       itemsId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
       time: {
         type: Sequelize.DATE,

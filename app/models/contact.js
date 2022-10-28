@@ -10,6 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Contact.belongsTo(models.User);
+      Contact.hasOne(models.Visit, {
+        foreignKey: 'visitorId',
+      });
+      Contact.hasOne(models.Visit, {
+        foreignKey: 'visiteeId',
+      });
       Contact.belongsToMany(models.Relationship, {
         through: 'ContactRelationships',
         as: 'relationships',
@@ -21,7 +27,6 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       address: DataTypes.STRING,
       phone: DataTypes.STRING,
-      relativeTypeId: DataTypes.STRING,
       ownerId: DataTypes.STRING,
       description: DataTypes.STRING,
     },

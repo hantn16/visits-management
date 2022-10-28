@@ -4,16 +4,15 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Items', {
       id: {
-        allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
       visitId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
-      type: {
-        type: Sequelize.INTEGER,
+      typeId: {
+        type: Sequelize.UUID,
       },
       amount: {
         type: Sequelize.INTEGER,

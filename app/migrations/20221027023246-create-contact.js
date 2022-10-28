@@ -18,9 +18,6 @@ module.exports = {
       phone: {
         type: Sequelize.STRING,
       },
-      relativeTypeId: {
-        type: Sequelize.UUID,
-      },
       ownerId: {
         type: Sequelize.UUID,
       },

@@ -4,7 +4,6 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('AllCodes', {
       id: {
-        allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -12,10 +11,7 @@ module.exports = {
       key: {
         type: Sequelize.STRING,
       },
-      valueEn: {
-        type: Sequelize.STRING,
-      },
-      valueVi: {
+      value: {
         type: Sequelize.STRING,
       },
       type: {

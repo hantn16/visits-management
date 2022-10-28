@@ -9,25 +9,32 @@
   ],
   "allcode": [
     {
-      "key": "V001",
-      "valueEn": "wedding",
-      "valueVi": "Đám cưới",
-      "type": "visit"
+      "key": "ET01",
+      "value": "Mừng đám cưới",
+      "type": "event"
     },
     {
-      "key": "V002",
-      "valueEn": "funeral",
-      "valueVi": "Đám ma",
-      "type": "visit"
+      "key": "ET02",
+      "value": "Viếng đám ma",
+      "type": "event"
     },
     {
-      "key": "V001",
-      "valueEn": "sick",
-      "valueVi": "Người ốm",
-      "type": "visit"
+      "key": "ET03",
+      "value": "Thăm người ốm",
+      "type": "event"
+    },
+    {
+      "key": "IT01",
+      "value": "Tiền mặt",
+      "type": "item"
+    },
+    {
+      "key": "IT02",
+      "value": "Chuyển khoản",
+      "type": "item"
     }
   ],
-  "contactGroups": [
+  "relationships": [
     {
       "name": "họ hàng",
       "nameEn": "relatives",

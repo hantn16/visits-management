@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { password, objectId } = require('./custom.validation');
+const { password, uuid } = require('./custom.validation');
 
 const createUser = {
   body: Joi.object().keys({
@@ -21,13 +21,13 @@ const getUsers = {
 
 const getUser = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    userId: Joi.string().custom(uuid),
   }),
 };
 
 const updateUser = {
   params: Joi.object().keys({
-    userId: Joi.required().custom(objectId),
+    userId: Joi.required().custom(uuid),
   }),
   body: Joi.object()
     .keys({
@@ -42,12 +42,12 @@ const updateUser = {
 
 const deleteUser = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    userId: Joi.string().custom(uuid),
   }),
 };
 const deleteUsers = {
   body: Joi.object().keys({
-    userIds: Joi.array().items(Joi.string().custom(objectId)),
+    userIds: Joi.array().items(Joi.string().custom(uuid)),
   }),
 };
 

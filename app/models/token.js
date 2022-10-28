@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Token extends Model {
     /**
@@ -11,17 +9,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Token.belongsTo(models.User, {
+        as: 'user',
+      });
     }
   }
-  Token.init({
-    token: DataTypes.STRING,
-    user: DataTypes.STRING,
-    type: DataTypes.STRING,
-    expires: DataTypes.DATE,
-    blacklisted: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'Token',
-  });
+  Token.init(
+    {
+      token: DataTypes.STRING,
+      userId: DataTypes.STRING,
+      type: DataTypes.STRING,
+      expires: DataTypes.DATE,
+      blacklisted: DataTypes.BOOLEAN,
+    },
+    {
+      sequelize,
+      modelName: 'Token',
+    }
+  );
   return Token;
 };
