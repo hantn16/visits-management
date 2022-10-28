@@ -1,7 +1,9 @@
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const config = require('./env');
 const { tokenTypes } = require('./tokens');
-const { User } = require('../models');
+const db = require('../models');
+const User = db.User;
+const Op = db.Sequelize.Op;
 
 const jwtOptions = {
   secretOrKey: config.jwt.secret,
@@ -14,7 +16,7 @@ const jwtVerify = async (payload, done) => {
     if (payload.type !== tokenTypes.ACCESS) {
       throw new Error('Invalid token type');
     }
-    const user = await User.findById(payload.sub);
+    const user = await User.findByPk(payload.sub);
     if (!user) {
       return done(null, false);
     }

@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Contact, {
+        foreignKey: 'ownerId',
+      });
     }
     isPasswordMatch = function (password) {
       const user = this;
@@ -18,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     };
     toJSON = function () {
       const values = Object.assign({}, this.get());
-
       delete values.password;
       return values;
     };

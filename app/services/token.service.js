@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { uuid } = require('uuidv4');
 const moment = require('moment');
 const httpStatus = require('http-status');
 const config = require('../config/env');
@@ -38,6 +39,7 @@ const generateToken = (userId, expires, type, secret = config.jwt.secret) => {
  */
 const saveToken = async (token, userId, expires, type, blacklisted = false) => {
   const tokenDoc = await Token.create({
+    id: uuid(),
     token,
     user: userId,
     expires: expires.toDate(),

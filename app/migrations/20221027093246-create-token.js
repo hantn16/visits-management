@@ -4,7 +4,6 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Tokens', {
       id: {
-        allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -13,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       user: {
-        type: Sequelize.UUIDV4,
+        type: Sequelize.STRING,
       },
       type: {
         type: Sequelize.STRING,
@@ -22,7 +21,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       blacklisted: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.TINYINT(1),
       },
       createdAt: {
         allowNull: false,

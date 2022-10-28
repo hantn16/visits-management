@@ -8,6 +8,14 @@ const createUser = catchAsync(async (req, res) => {
 });
 
 // Retrieve all Users from the database.
+const getUsers = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['name', 'role', 'isEmailVerified']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const result = await userService.queryUsers(filter, options);
+  res.send(result);
+});
+
+// Retrieve all Users from the database.
 const findAll = (req, res) => {
   const email = req.query.email;
   var condition = email ? { email: { [Op.like]: `%${email}%` } } : null;
@@ -129,6 +137,7 @@ const getTestUsers = (req, res) => {
 };
 module.exports = {
   createUser,
+  getUsers,
   findAll,
   findOne,
   update,
