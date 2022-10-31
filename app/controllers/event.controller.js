@@ -9,7 +9,7 @@ const createEvent = catchAsync(async (req, res) => {
 
 // Retrieve all Events from the database.
 const getEvents = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name', 'role', 'isEmailVerified']);
+  const filter = pick(req.query, ['name']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await eventService.queryEvents(filter, options);
   res.send(result);
@@ -32,27 +32,20 @@ const findAll = (req, res) => {
 };
 
 // Find a single Event with an id
-const findOne = (req, res) => {
-  const id = req.params.id;
-
-  Event.findByPk(id)
-    .then((data) => {
-      if (data) {
-        res.send(data);
-      } else {
-        res.status(404).send({
-          message: `Cannot find Event with id=${id}.`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: 'Error retrieving Event with id=' + id,
-      });
-    });
-};
+const getEvent = catchAsync(async (req, res) => {
+  const event = await eventService.getEventById(req.params.id);
+  if (!event) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Event not found');
+  }
+  res.send(event);
+});
 
 // Update a Event by the id in the request
+const updateEvent = catchAsync(async (req, res) => {
+  const event = await eventService.updateEventById(req.params.id, req.body);
+  res.send(event);
+});
+
 const update = (req, res) => {
   const id = req.params.id;
 
@@ -78,6 +71,11 @@ const update = (req, res) => {
 };
 
 // Delete a Event with the specified id in the request
+const deleteEvent = catchAsync(async (req, res) => {
+  await eventService.deleteEventById(req.params.id);
+  res.status(httpStatus.NO_CONTENT).send();
+});
+
 const deleteOne = (req, res) => {
   const id = req.params.id;
 
@@ -117,6 +115,10 @@ const deleteAll = (req, res) => {
       });
     });
 };
+const deleteEvents = catchAsync(async (req, res) => {
+  await eventService.deleteEventsById(req.body.eventIds);
+  res.status(httpStatus.NO_CONTENT).send();
+});
 
 // find all published Event
 const findAllPublished = (req, res) => {
@@ -130,19 +132,16 @@ const findAllPublished = (req, res) => {
       });
     });
 };
-const getTestEvents = (req, res) => {
-  return res.status(200).json({
-    message: 'Success',
-  });
-};
 module.exports = {
   createEvent,
   getEvents,
   findAll,
-  findOne,
+  getEvent,
+  updateEvent,
+  deleteEvent,
   update,
   deleteOne,
   deleteAll,
+  deleteEvents,
   findAllPublished,
-  getTestEvents,
 };

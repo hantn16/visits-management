@@ -3,9 +3,9 @@ const { password, uuid } = require('./custom.validation');
 
 const createEvent = {
   body: Joi.object().keys({
-    description: Joi.string().required(),
-    typeId: Joi.string().required().custom(uuid),
     name: Joi.string().required(),
+    typeId: Joi.string().required().custom(uuid),
+    description: Joi.string(),
   }),
 };
 
@@ -30,9 +30,9 @@ const updateEvent = {
   }),
   body: Joi.object()
     .keys({
-      description: Joi.string().required(),
-      typeId: Joi.string().required().custom(uuid),
-      name: Joi.string().required(),
+      description: Joi.string(),
+      typeId: Joi.string().custom(uuid),
+      name: Joi.string(),
     })
     .min(1),
 };

@@ -34,7 +34,10 @@ const queryEvents = async (filter, options) => {
  * @returns {Promise<Event>}
  */
 const getEventById = async (id) => {
-  return Event.findByPk(id);
+  console.log(id);
+  return Event.findByPk(id, {
+    include: 'type',
+  });
 };
 
 /**
