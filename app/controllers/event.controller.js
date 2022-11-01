@@ -1,6 +1,8 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
+const pick = require('../utils/pick');
 const { eventService } = require('../services');
+const ApiError = require('../utils/ApiError');
 
 const createEvent = catchAsync(async (req, res) => {
   const event = await eventService.createEvent(req.body);
@@ -9,9 +11,9 @@ const createEvent = catchAsync(async (req, res) => {
 
 // Retrieve all Events from the database.
 const getEvents = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await eventService.queryEvents(filter, options);
+  const query = pick(req.query, ['name']);
+  const options = pick(req.query, ['orderBy', 'limit', 'page', 'include', 'group']);
+  const result = await eventService.queryEvents(query, options);
   res.send(result);
 });
 

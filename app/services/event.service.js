@@ -16,15 +16,17 @@ const createEvent = async (eventBody) => {
 
 /**
  * Query for events
- * @param {Object} filter - Mongo filter
+ * @param {Object} query - Squelize query in the format {where:{field:"something"}}
  * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {string} [options.orderBy] - Sort option in the format: sortField1:(desc|asc),sortField2:(desc|asc)
+ * @param {string} [options.group] - Group option in the format: groupField1,groupField2
+ * @param {string} [options.include] - include option in the format: includeField1:,includeField2
  * @param {number} [options.limit] - Maximum number of results per page (default = 10)
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryEvents = async (filter, options) => {
-  const events = await Event.paginate(filter, options);
+const queryEvents = async (query, options) => {
+  const events = await Event.paginate(query, options);
   return events;
 };
 
@@ -34,7 +36,6 @@ const queryEvents = async (filter, options) => {
  * @returns {Promise<Event>}
  */
 const getEventById = async (id) => {
-  console.log(id);
   return Event.findByPk(id, {
     include: 'type',
   });

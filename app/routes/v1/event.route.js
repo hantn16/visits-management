@@ -10,7 +10,7 @@ const router = express.Router();
 router
   .route('/')
   .post(validate(eventValidation.createEvent), eventController.createEvent)
-  .get(auth('getEvents'), validate(eventValidation.getEvents), eventController.getEvents)
+  .get(validate(eventValidation.getEvents), eventController.getEvents)
   .delete(validate(eventValidation.deleteEvents), eventController.deleteEvents);
 
 router

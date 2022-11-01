@@ -1,6 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
 const { uuid } = require('uuidv4');
+const { paginate } = require('./plugins');
 module.exports = (sequelize, DataTypes) => {
   class Event extends Model {
     /**
@@ -17,6 +18,9 @@ module.exports = (sequelize, DataTypes) => {
       Event.belongsTo(models.AllCode, {
         as: 'type',
       });
+    }
+    static paginate(query, options) {
+      return paginate(this, query, options);
     }
   }
   Event.init(

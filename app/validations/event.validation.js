@@ -12,7 +12,9 @@ const createEvent = {
 const getEvents = {
   query: Joi.object().keys({
     name: Joi.string(),
-    sortBy: Joi.string(),
+    orderBy: Joi.string(),
+    include: Joi.string(),
+    group: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
   }),
