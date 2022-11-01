@@ -1,5 +1,7 @@
 'use strict';
-const { Model } = require('sequelize');
+const { Model, Op } = require('sequelize');
+const { uuid } = require('uuidv4');
+const { paginate } = require('./plugins');
 module.exports = (sequelize, DataTypes) => {
   class Relationship extends Model {
     /**
@@ -19,7 +21,12 @@ module.exports = (sequelize, DataTypes) => {
       Relationship.belongsToMany(models.Contact, {
         through: 'ContactRelationships',
         as: 'contacts',
+        foreignKey: 'contactId',
+        otherKey: 'relationshipId',
       });
+    }
+    static paginate(query, options) {
+      return paginate(this, query, options);
     }
   }
   Relationship.init(
@@ -31,17 +38,20 @@ module.exports = (sequelize, DataTypes) => {
       hasChild: {
         type: DataTypes.VIRTUAL,
         get() {
-          return !!Relationship.findOne({
-            where: {
-              parentId: this.parentId,
-            },
-          });
+          return this.children?.length > 0;
         },
       },
     },
     {
       sequelize,
       modelName: 'Relationship',
+      hooks: {
+        beforeCreate: async (relationship, options) => {
+          if (!relationship.id) {
+            relationship.id = uuid();
+          }
+        },
+      },
     }
   );
   return Relationship;

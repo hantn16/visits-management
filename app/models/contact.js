@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
       Contact.belongsToMany(models.Relationship, {
         through: 'ContactRelationships',
         as: 'relationships',
+        foreignKey: 'contactId',
+        otherKey: 'relationshipId',
       });
     }
   }

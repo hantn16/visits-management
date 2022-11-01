@@ -3,6 +3,7 @@ const express = require('express');
 const userRoute = require('./user.route');
 const authRoute = require('./auth.route');
 const eventRoute = require('./event.route');
+const relationshipRoute = require('./relationship.route');
 
 const router = express.Router();
 
@@ -18,6 +19,10 @@ const defaultRoutes = [
   {
     path: '/events',
     route: eventRoute,
+  },
+  {
+    path: '/relationships',
+    route: relationshipRoute,
   },
 ];
 
