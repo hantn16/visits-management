@@ -1,19 +1,21 @@
 const Joi = require('joi');
-const { password, uuid } = require('./custom.validation');
+const { uuid } = require('./custom.validation');
 
-const createRelationship = {
+const createContact = {
   body: Joi.object().keys({
     name: Joi.string().required(),
-    nameEn: Joi.string(),
-    parentId: Joi.string().custom(uuid),
+    address: Joi.string(),
+    phone: Joi.string(),
+    userId: Joi.string().required().custom(uuid),
     description: Joi.string(),
   }),
 };
 
-const getRelationships = {
+const getContacts = {
   query: Joi.object().keys({
     name: Joi.string(),
-    nameEn: Joi.string(),
+    phone: Joi.string(),
+    userId: Joi.string(),
     orderBy: Joi.string(),
     include: Joi.string(),
     group: Joi.string(),
@@ -22,42 +24,43 @@ const getRelationships = {
   }),
 };
 
-const getRelationship = {
+const getContact = {
   params: Joi.object().keys({
     id: Joi.string().custom(uuid),
   }),
 };
 
-const updateRelationship = {
+const updateContact = {
   params: Joi.object().keys({
     id: Joi.required().custom(uuid),
   }),
   body: Joi.object()
     .keys({
       name: Joi.string(),
-      nameEn: Joi.string(),
-      parentId: Joi.string().custom(uuid),
+      address: Joi.string(),
+      phone: Joi.string(),
+      userId: Joi.string().custom(uuid),
       description: Joi.string(),
     })
     .min(1),
 };
 
-const deleteRelationship = {
+const deleteContact = {
   params: Joi.object().keys({
     id: Joi.string().custom(uuid),
   }),
 };
-const deleteRelationships = {
+const deleteContacts = {
   body: Joi.object().keys({
     ids: Joi.array().items(Joi.string().custom(uuid)),
   }),
 };
 
 module.exports = {
-  createRelationship,
-  getRelationships,
-  getRelationship,
-  updateRelationship,
-  deleteRelationship,
-  deleteRelationships,
+  createContact,
+  getContacts,
+  getContact,
+  updateContact,
+  deleteContact,
+  deleteContacts,
 };

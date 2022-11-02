@@ -41,7 +41,7 @@ const saveToken = async (token, userId, expires, type, blacklisted = false) => {
   const tokenDoc = await Token.create({
     id: uuid(),
     token,
-    user: userId,
+    userId,
     expires: expires.toDate(),
     type,
     blacklisted,

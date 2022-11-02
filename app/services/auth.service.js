@@ -107,18 +107,6 @@ const verifyEmail = async (verifyEmailToken) => {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Email verification failed');
   }
 };
-/**
- * Update Settings
- * @param {Object} updateBody
- * @returns {Promise}
- */
-const updateSettings = async (userId, updateBody) => {
-  try {
-    return userService.updateUserById(userId, updateBody);
-  } catch (error) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Update settings failed');
-  }
-};
 
 module.exports = {
   loginUserWithEmailAndPassword,
@@ -127,5 +115,4 @@ module.exports = {
   refreshAuth,
   resetPassword,
   verifyEmail,
-  updateSettings,
 };

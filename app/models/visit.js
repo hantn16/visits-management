@@ -1,5 +1,9 @@
 'use strict';
 const { Model } = require('sequelize');
+const { uuid } = require('uuidv4');
+
+const { paginate } = require('./plugins');
+
 module.exports = (sequelize, DataTypes) => {
   class Visit extends Model {
     /**
@@ -23,6 +27,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'visitId',
       });
     }
+    static paginate(query, options) {
+      return paginate(this, query, options);
+    }
   }
   Visit.init(
     {
@@ -32,16 +39,19 @@ module.exports = (sequelize, DataTypes) => {
       },
       visitorId: DataTypes.STRING,
       visiteeId: DataTypes.STRING,
-      itemsId: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       time: DataTypes.DATE,
       description: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: 'Visit',
+      hooks: {
+        beforeCreate: async (event, options) => {
+          if (!event.id) {
+            event.id = uuid();
+          }
+        },
+      },
     }
   );
   return Visit;

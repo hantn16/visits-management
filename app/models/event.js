@@ -1,7 +1,9 @@
 'use strict';
 const { Model } = require('sequelize');
 const { uuid } = require('uuidv4');
+
 const { paginate } = require('./plugins');
+
 module.exports = (sequelize, DataTypes) => {
   class Event extends Model {
     /**

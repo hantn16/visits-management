@@ -37,7 +37,6 @@ const queryRelationships = async (query, options) => {
  */
 const getRelationshipById = async (id) => {
   const relationship = await Relationship.findByPk(id, {
-    // include: ['parent', 'children'],
     include: { all: true },
   });
   return relationship;
@@ -79,7 +78,7 @@ const deleteRelationshipById = async (relationshipId) => {
  * @returns {Promise<Array<Relationship>>}
  */
 const deleteRelationshipsById = async (relationshipIds) => {
-  relationshipIds.map(async (id) => {
+  return relationshipIds.map(async (id) => {
     const relationship = await getRelationshipById(id);
     if (!relationship) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Relationship not found');

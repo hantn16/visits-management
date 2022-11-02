@@ -1,19 +1,22 @@
 const Joi = require('joi');
-const { password, uuid } = require('./custom.validation');
+const { uuid } = require('./custom.validation');
 
-const createRelationship = {
+const createItem = {
   body: Joi.object().keys({
-    name: Joi.string().required(),
-    nameEn: Joi.string(),
-    parentId: Joi.string().custom(uuid),
+    visitId: Joi.string().required().custom(uuid),
+    typeId: Joi.string().required().custom(uuid),
+    unit: Joi.string().required(),
+    amount: Joi.number().required(),
     description: Joi.string(),
   }),
 };
 
-const getRelationships = {
+const getItems = {
   query: Joi.object().keys({
-    name: Joi.string(),
-    nameEn: Joi.string(),
+    visitId: Joi.string().custom(uuid),
+    typeId: Joi.string().custom(uuid),
+    unit: Joi.string(),
+    amount: Joi.number(),
     orderBy: Joi.string(),
     include: Joi.string(),
     group: Joi.string(),
@@ -22,42 +25,43 @@ const getRelationships = {
   }),
 };
 
-const getRelationship = {
+const getItem = {
   params: Joi.object().keys({
     id: Joi.string().custom(uuid),
   }),
 };
 
-const updateRelationship = {
+const updateItem = {
   params: Joi.object().keys({
     id: Joi.required().custom(uuid),
   }),
   body: Joi.object()
     .keys({
-      name: Joi.string(),
-      nameEn: Joi.string(),
-      parentId: Joi.string().custom(uuid),
+      visitId: Joi.string().custom(uuid),
+      typeId: Joi.string().custom(uuid),
+      unit: Joi.string(),
+      amount: Joi.number(),
       description: Joi.string(),
     })
     .min(1),
 };
 
-const deleteRelationship = {
+const deleteItem = {
   params: Joi.object().keys({
     id: Joi.string().custom(uuid),
   }),
 };
-const deleteRelationships = {
+const deleteItems = {
   body: Joi.object().keys({
     ids: Joi.array().items(Joi.string().custom(uuid)),
   }),
 };
 
 module.exports = {
-  createRelationship,
-  getRelationships,
-  getRelationship,
-  updateRelationship,
-  deleteRelationship,
-  deleteRelationships,
+  createItem,
+  getItems,
+  getItem,
+  updateItem,
+  deleteItem,
+  deleteItems,
 };

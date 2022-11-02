@@ -1,5 +1,9 @@
 'use strict';
 const { Model } = require('sequelize');
+const { uuid } = require('uuidv4');
+
+const { paginate } = require('./plugins');
+
 module.exports = (sequelize, DataTypes) => {
   class Item extends Model {
     /**
@@ -16,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
         as: 'type',
       });
     }
+    static paginate(query, options) {
+      return paginate(this, query, options);
+    }
   }
   Item.init(
     {
@@ -28,6 +35,13 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Item',
+      hooks: {
+        beforeCreate: async (event, options) => {
+          if (!event.id) {
+            event.id = uuid();
+          }
+        },
+      },
     }
   );
   return Item;

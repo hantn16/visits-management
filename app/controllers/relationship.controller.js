@@ -11,7 +11,7 @@ const createRelationship = catchAsync(async (req, res) => {
 
 // Retrieve all Relationships from the database.
 const getRelationships = catchAsync(async (req, res) => {
-  const query = pick(req.query, ['name']);
+  const query = pick(req.query, ['name', 'nameEn']);
   const options = pick(req.query, ['orderBy', 'limit', 'page', 'include', 'group']);
   const result = await relationshipService.queryRelationships(query, options);
   res.send(result);

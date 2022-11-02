@@ -1,3 +1,5 @@
+const { EXCLUDE_FIELDS } = require('../../config/model');
+const db = require('../../models');
 /**
  * @typedef {Object} QueryResult
  * @property {Document[]} results - Results found
@@ -54,9 +56,9 @@ const paginate = async function (model, query, options) {
   if (options.include) {
     const arr = options.include.split(',');
     if (options.include === 'all') {
-      findOptions.include = { all: true };
+      findOptions.include = { all: true, attributes: { exclude: EXCLUDE_FIELDS } };
     } else if (options.include === 'all,nested') {
-      findOptions.include = { all: true, nested: true };
+      findOptions.include = { all: true, nested: true, attributes: { exclude: EXCLUDE_FIELDS } };
     } else {
       findOptions.include = arr;
     }

@@ -1,5 +1,9 @@
 module.exports.userService = require('./user.service');
 module.exports.eventService = require('./event.service');
+module.exports.contactService = require('./contact.service');
+module.exports.visitService = require('./visit.service');
+module.exports.itemService = require('./item.service');
+module.exports.allCodeService = require('./allCode.service');
 module.exports.relationshipService = require('./relationship.service');
 module.exports.authService = require('./auth.service');
 module.exports.tokenService = require('./token.service');

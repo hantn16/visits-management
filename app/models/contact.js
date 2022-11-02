@@ -1,5 +1,9 @@
 'use strict';
 const { Model } = require('sequelize');
+const { uuid } = require('uuidv4');
+
+const { paginate } = require('./plugins');
+
 module.exports = (sequelize, DataTypes) => {
   class Contact extends Model {
     /**
@@ -9,12 +13,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Contact.belongsTo(models.User);
+      Contact.belongsTo(models.User, {
+        as: 'user',
+      });
       Contact.hasOne(models.Visit, {
         foreignKey: 'visitorId',
+        as: 'visitings',
       });
       Contact.hasOne(models.Visit, {
         foreignKey: 'visiteeId',
+        as: 'visiteds',
       });
       Contact.belongsToMany(models.Relationship, {
         through: 'ContactRelationships',
@@ -23,18 +31,28 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'relationshipId',
       });
     }
+    static paginate(query, options) {
+      return paginate(this, query, options);
+    }
   }
   Contact.init(
     {
       name: DataTypes.STRING,
       address: DataTypes.STRING,
       phone: DataTypes.STRING,
-      ownerId: DataTypes.STRING,
+      userId: DataTypes.STRING,
       description: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: 'Contact',
+      hooks: {
+        beforeCreate: async (contact, options) => {
+          if (!contact.id) {
+            contact.id = uuid();
+          }
+        },
+      },
     }
   );
   return Contact;

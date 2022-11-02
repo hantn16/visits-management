@@ -18,7 +18,7 @@ module.exports = {
       phone: {
         type: Sequelize.STRING,
       },
-      ownerId: {
+      userId: {
         type: Sequelize.UUID,
       },
       description: {

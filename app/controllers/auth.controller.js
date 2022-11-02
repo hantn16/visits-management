@@ -51,8 +51,14 @@ const verifyEmail = catchAsync(async (req, res) => {
   await authService.verifyEmail(req.query.token);
   res.status(httpStatus.NO_CONTENT).send();
 });
-const updateSettings = catchAsync(async (req, res) => {
-  const user = await authService.updateSettings(req.user.id, req.body);
+const updateMe = catchAsync(async (req, res) => {
+  console.log(req.user);
+  const user = await userService.updateUserById(req.user.id, req.body);
+  res.status(httpStatus.OK).send(user);
+});
+const getMe = catchAsync(async (req, res) => {
+  console.log(req.user);
+  const user = await userService.getUserById(req.user.id);
   res.status(httpStatus.OK).send(user);
 });
 
@@ -66,5 +72,6 @@ module.exports = {
   resetPassword,
   sendVerificationEmail,
   verifyEmail,
-  updateSettings,
+  updateMe,
+  getMe,
 };

@@ -53,10 +53,12 @@ const verifyEmail = {
     token: Joi.string().required(),
   }),
 };
-const updateSettings = {
-  body: Joi.object().keys({
-    userSettings: Joi.object().required(),
-  }),
+const updateMe = {
+  body: Joi.object()
+    .keys({
+      name: Joi.string().required(),
+    })
+    .min(1),
 };
 
 module.exports = {
@@ -68,5 +70,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   verifyEmail,
-  updateSettings,
+  updateMe,
 };

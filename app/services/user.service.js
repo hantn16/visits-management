@@ -19,12 +19,14 @@ const createUser = async (userBody) => {
 
 /**
  * Query for users
- * @param {Object} filter - Mongo filter
+ * @param {Object} query - Squelize query in the format {where:{field:"something"}}
  * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {string} [options.orderBy] - Sort option in the format: sortField1:(desc|asc),sortField2:(desc|asc)
+ * @param {string} [options.group] - Group option in the format: groupField1,groupField2
+ * @param {string} [options.include] - include option in the format: includeField1:,includeField2
  * @param {number} [options.limit] - Maximum number of results per page (default = 10)
  * @param {number} [options.page] - Current page (default = 1)
- * @returns {Promise<QueryResult>}
+ * @returns {Promise<QueryResult>}>}
  */
 const queryUsers = async (filter, options) => {
   const users = await User.paginate(filter, options);
@@ -37,7 +39,9 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return User.findByPk(id);
+  return User.findByPk(id, {
+    include: { all: true },
+  });
 };
 
 /**
@@ -46,7 +50,7 @@ const getUserById = async (id) => {
  * @returns {Promise<User>}
  */
 const getUserByEmail = async (email) => {
-  return User.findOne({ email });
+  return await User.findOne({ where: { email }, include: { all: true } });
 };
 
 /**
@@ -66,7 +70,6 @@ const updateUserById = async (userId, updateBody) => {
   }
   Object.assign(user, updateBody);
   await user.save();
-  // console.log(user);
   return user;
 };
 
@@ -80,7 +83,7 @@ const deleteUserById = async (userId) => {
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
-  await user.remove();
+  await user.destroy();
   return user;
 };
 /**
@@ -89,12 +92,12 @@ const deleteUserById = async (userId) => {
  * @returns {Promise<Array<User>>}
  */
 const deleteUsersById = async (userIds) => {
-  userIds.map(async (id) => {
+  return userIds.map(async (id) => {
     const user = await getUserById(id);
     if (!user) {
       throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
     }
-    await user.remove();
+    await user.destroy();
     return user;
   });
 };

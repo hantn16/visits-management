@@ -3,6 +3,10 @@ const express = require('express');
 const userRoute = require('./user.route');
 const authRoute = require('./auth.route');
 const eventRoute = require('./event.route');
+const contactRoute = require('./contact.route');
+const allCodeRoute = require('./allCode.route');
+const visitRoute = require('./visit.route');
+const itemRoute = require('./item.route');
 const relationshipRoute = require('./relationship.route');
 
 const router = express.Router();
@@ -19,6 +23,22 @@ const defaultRoutes = [
   {
     path: '/events',
     route: eventRoute,
+  },
+  {
+    path: '/contacts',
+    route: contactRoute,
+  },
+  {
+    path: '/allCodes',
+    route: allCodeRoute,
+  },
+  {
+    path: '/visits',
+    route: visitRoute,
+  },
+  {
+    path: '/items',
+    route: itemRoute,
   },
   {
     path: '/relationships',

@@ -2,6 +2,9 @@
 const { Model } = require('sequelize');
 const { uuid } = require('uuidv4');
 const bcrypt = require('bcryptjs');
+
+const { paginate } = require('./plugins');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -12,12 +15,16 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.Contact, {
-        foreignKey: 'ownerId',
+        foreignKey: 'userId',
+        as: 'contacts',
       });
       User.hasMany(models.Token, {
         foreignKey: 'userId',
         as: 'tokens',
       });
+    }
+    static paginate(query, options) {
+      return paginate(this, query, options);
     }
     isPasswordMatch = function (password) {
       const user = this;
@@ -26,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     toJSON = function () {
       const values = Object.assign({}, this.get());
       delete values.password;
+      delete values.tokens;
       return values;
     };
     static isEmailTaken = async function (email) {
@@ -41,6 +49,8 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
     },
     {
+      sequelize,
+      modelName: 'User',
       hooks: {
         beforeSave: async (user, options) => {
           if (user.changed('password')) {
@@ -56,8 +66,6 @@ module.exports = (sequelize, DataTypes) => {
           });
         },
       },
-      sequelize,
-      modelName: 'User',
     }
   );
   return User;

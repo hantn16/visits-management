@@ -1,5 +1,7 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
+const pick = require('../utils/pick');
+const ApiError = require('../utils/ApiError');
 const { userService } = require('../services');
 
 const createUser = catchAsync(async (req, res) => {
@@ -9,140 +11,56 @@ const createUser = catchAsync(async (req, res) => {
 
 // Retrieve all Users from the database.
 const getUsers = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name', 'role', 'isEmailVerified']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await userService.queryUsers(filter, options);
+  const query = pick(req.query, ['name', 'email']);
+  const options = pick(req.query, ['orderBy', 'limit', 'page', 'include', 'group']);
+  const result = await userService.queryUsers(query, options);
   res.send(result);
 });
 
-// Retrieve all Users from the database.
-const findAll = (req, res) => {
-  const email = req.query.email;
-  var condition = email ? { email: { [Op.like]: `%${email}%` } } : null;
-
-  User.findAll({ where: condition })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving users.',
-      });
-    });
-};
-
 // Find a single User with an id
-const findOne = (req, res) => {
-  const id = req.params.id;
-
-  User.findByPk(id)
-    .then((data) => {
-      if (data) {
-        res.send(data);
-      } else {
-        res.status(404).send({
-          message: `Cannot find User with id=${id}.`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: 'Error retrieving User with id=' + id,
-      });
-    });
-};
+const getUser = catchAsync(async (req, res) => {
+  const user = await userService.getUserById(req.params.id);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  res.send(user);
+});
+// Find a single User with an email
+const getUserByEmail = catchAsync(async (req, res) => {
+  console.log(req.body);
+  if (!req.body.email) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email is required');
+  }
+  const user = await userService.getUserByEmail(req.body.email);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  res.send(user);
+});
 
 // Update a User by the id in the request
-const update = (req, res) => {
-  const id = req.params.id;
-
-  User.update(req.body, {
-    where: { id: id },
-  })
-    .then((num) => {
-      if (num == 1) {
-        res.send({
-          message: 'User was updated successfully.',
-        });
-      } else {
-        res.send({
-          message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: 'Error updating User with id=' + id,
-      });
-    });
-};
+const updateUser = catchAsync(async (req, res) => {
+  const user = await userService.updateUserById(req.params.id, req.body);
+  res.send(user);
+});
 
 // Delete a User with the specified id in the request
-const deleteOne = (req, res) => {
-  const id = req.params.id;
-
-  User.destroy({
-    where: { id: id },
-  })
-    .then((num) => {
-      if (num == 1) {
-        res.send({
-          message: 'User was deleted successfully!',
-        });
-      } else {
-        res.send({
-          message: `Cannot delete User with id=${id}. Maybe User was not found!`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: 'Could not delete User with id=' + id,
-      });
-    });
-};
+const deleteUser = catchAsync(async (req, res) => {
+  await userService.deleteUserById(req.params.id);
+  res.status(httpStatus.NO_CONTENT).send();
+});
 
 // Delete all Users from the database.
-const deleteAll = (req, res) => {
-  User.destroy({
-    where: {},
-    truncate: false,
-  })
-    .then((nums) => {
-      res.send({ message: `${nums} Users were deleted successfully!` });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while removing all users.',
-      });
-    });
-};
-
-// find all published User
-const findAllPublished = (req, res) => {
-  User.findAll({ where: { published: true } })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving users.',
-      });
-    });
-};
-const getTestUsers = (req, res) => {
-  return res.status(200).json({
-    message: 'Success',
-  });
-};
+const deleteUsers = catchAsync(async (req, res) => {
+  await userService.deleteUsersById(req.body.userIds);
+  res.status(httpStatus.NO_CONTENT).send();
+});
 module.exports = {
   createUser,
   getUsers,
-  findAll,
-  findOne,
-  update,
-  deleteOne,
-  deleteAll,
-  findAllPublished,
-  getTestUsers,
+  getUser,
+  getUserByEmail,
+  updateUser,
+  deleteUser,
+  deleteUsers,
 };

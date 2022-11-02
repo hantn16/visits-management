@@ -1,19 +1,20 @@
 const Joi = require('joi');
-const { password, uuid } = require('./custom.validation');
+const { uuid } = require('./custom.validation');
 
-const createRelationship = {
+const createAllCode = {
   body: Joi.object().keys({
-    name: Joi.string().required(),
-    nameEn: Joi.string(),
-    parentId: Joi.string().custom(uuid),
+    key: Joi.string().required(),
+    value: Joi.string().required(),
+    type: Joi.string().required(),
     description: Joi.string(),
   }),
 };
 
-const getRelationships = {
+const getAllCodes = {
   query: Joi.object().keys({
-    name: Joi.string(),
-    nameEn: Joi.string(),
+    key: Joi.string(),
+    value: Joi.string(),
+    type: Joi.string(),
     orderBy: Joi.string(),
     include: Joi.string(),
     group: Joi.string(),
@@ -22,42 +23,42 @@ const getRelationships = {
   }),
 };
 
-const getRelationship = {
+const getAllCode = {
   params: Joi.object().keys({
     id: Joi.string().custom(uuid),
   }),
 };
 
-const updateRelationship = {
+const updateAllCode = {
   params: Joi.object().keys({
     id: Joi.required().custom(uuid),
   }),
   body: Joi.object()
     .keys({
-      name: Joi.string(),
-      nameEn: Joi.string(),
-      parentId: Joi.string().custom(uuid),
+      key: Joi.string(),
+      value: Joi.string(),
+      type: Joi.string(),
       description: Joi.string(),
     })
     .min(1),
 };
 
-const deleteRelationship = {
+const deleteAllCode = {
   params: Joi.object().keys({
     id: Joi.string().custom(uuid),
   }),
 };
-const deleteRelationships = {
+const deleteAllCodes = {
   body: Joi.object().keys({
     ids: Joi.array().items(Joi.string().custom(uuid)),
   }),
 };
 
 module.exports = {
-  createRelationship,
-  getRelationships,
-  getRelationship,
-  updateRelationship,
-  deleteRelationship,
-  deleteRelationships,
+  createAllCode,
+  getAllCodes,
+  getAllCode,
+  updateAllCode,
+  deleteAllCode,
+  deleteAllCodes,
 };

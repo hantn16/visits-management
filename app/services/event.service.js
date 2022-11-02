@@ -37,7 +37,7 @@ const queryEvents = async (query, options) => {
  */
 const getEventById = async (id) => {
   return Event.findByPk(id, {
-    include: 'type',
+    include: { all: true },
   });
 };
 
@@ -77,7 +77,7 @@ const deleteEventById = async (eventId) => {
  * @returns {Promise<Array<Event>>}
  */
 const deleteEventsById = async (eventIds) => {
-  eventIds.map(async (id) => {
+  return eventIds.map(async (id) => {
     const event = await getEventById(id);
     if (!event) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Event not found');
